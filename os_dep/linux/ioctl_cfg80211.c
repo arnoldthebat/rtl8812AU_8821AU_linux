@@ -3331,6 +3331,7 @@ void rtw_cfg80211_indicate_sta_assoc(_adapter *padapter, u8 *pmgmt_frame, uint f
 	{
 		struct station_info sinfo;
 		u8 ie_offset;
+		_rtw_memset(&sinfo, 0, sizeof(struct station_info));
 		if (GetFrameSubType(pmgmt_frame) == WIFI_ASSOCREQ)
 			ie_offset = _ASOCREQ_IE_OFFSET_;
 		else // WIFI_REASSOCREQ
@@ -4052,7 +4053,7 @@ exit:
 	return ret;
 }
 
-/*static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev,
+static int	cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,1,0))
 		struct station_del_parameters *params)
 {
@@ -4145,7 +4146,7 @@ exit:
 	return ret;
 
 }
-*/
+
 static int	cfg80211_rtw_change_station(struct wiphy *wiphy, struct net_device *ndev,
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0))
                                         u8 *mac,
@@ -5998,7 +5999,7 @@ static struct cfg80211_ops rtw_cfg80211_ops = {
 #endif
 
 	.add_station = cfg80211_rtw_add_station,
-	//.del_station = cfg80211_rtw_del_station,
+	.del_station = cfg80211_rtw_del_station,
 	.change_station = cfg80211_rtw_change_station,
 	.dump_station = cfg80211_rtw_dump_station,
 	.change_bss = cfg80211_rtw_change_bss,
